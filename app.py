@@ -1,13 +1,29 @@
-from flask import Flask
-import os
+from flask import Flask, request, jsonify, make_response
+from flask_cors import CORS
+from generator import *
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
-def hello_world():
-    return 'Gemini Article Generator'
+def index():
+    return "Article Genarator Using Gemini AI"
 
-@app.route('/api')
-def api():
-    api_key = os.getenv("API_KEY")
-    return api_key
+@app.route('/generate', methods=['GET','POST'])
+def articles():
+    if request.method == 'POST':
+        keyword = request.form.get('keyword')
+        description = get_description(keyword)
+        content = get_article(keyword)
+        image = get_image(keyword)
+        result = {
+            'description': description,
+            'content': content,
+            'image': image
+        }
+        return make_response(jsonify(result)), 200
+    else:
+        response = {
+            'message': 'Use POST Method & Entry keyword'
+        }
+        return make_response(jsonify(response)), 200
