@@ -7,7 +7,7 @@ def get_description(keyword):
     api_key = os.getenv("API_KEY")
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-pro')
-    prompt = 'give me 1 result (to the point and just the answer) article description 200 characters max with keyword :' + str(keyword)
+    prompt = 'give me 1 result (to the point and just the answer) article description 180 characters max with title :' + str(keyword)
     response = model.generate_content(prompt)
     return response.text
 
@@ -15,7 +15,7 @@ def get_article(keyword):
     api_key = os.getenv("API_KEY")
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-pro')
-    prompt = 'give me result (to the point and just the answer) article for seo with title contain keyword :' + str(keyword) + '. the article consist of at least maximum 300 words. create in html file form without html and body tag. first title using <h1> tag. paragraphs must use <p> tags.',
+    prompt = 'give me result (to the point and just the answer) article with title "' + str(keyword) + '". the article consist of at least 300 words. every paragraphs must use <p> tags.',
     response = model.generate_content(prompt)
     return response.text
 
